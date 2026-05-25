@@ -5,6 +5,10 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapRoute, MapLocation } from '../hooks/useJTTSData';
 
+interface PannellumViewer {
+  viewer: (container: string, options: Record<string, unknown>) => unknown;
+}
+
 interface Props {
   routes: MapRoute[];
   locations: MapLocation[];
@@ -18,9 +22,12 @@ const MapPanel: React.FC<Props> = ({ routes, locations, selectedRouteName }) => 
   const [mapLoaded, setMapLoaded] = useState(false);
   const [currentStyle, setCurrentStyle] = useState<'dark' | 'satellite'>('dark');
   
-  const viewerRef = useRef<any>(null);
-  const routesRef = useRef<MapRoute[]>(routes);
+const viewerRef = useRef<PannellumViewer | null>(null);
+const routesRef = useRef<MapRoute[]>(routes);
+
+useEffect(() => {
   routesRef.current = routes;
+}, [routes]);
   
   // Track rendered elements to prevent duplicates during style changes
   const markersRef = useRef<maplibregl.Marker[]>([]);
@@ -195,7 +202,7 @@ const MapPanel: React.FC<Props> = ({ routes, locations, selectedRouteName }) => 
       mapInstance.current = null;
       setMapLoaded(false);
     };
-  }, []); // Empty deps, strictly init map once
+  }, [STYLES.dark, locations, renderLayers, renderMarkers]);
 
   // Handle external data updates (e.g. dynamic reload of locations/routes)
   useEffect(() => {
@@ -237,8 +244,8 @@ const MapPanel: React.FC<Props> = ({ routes, locations, selectedRouteName }) => 
   useEffect(() => {
     if (active360?.photo360) {
       const timer = setTimeout(() => {
-        if ((window as any).pannellum) {
-          viewerRef.current = (window as any).pannellum.viewer('panorama-360', {
+    if ((window as unknown as Record<string, { pannellum: PannellumViewer }>).pannellum) {
+      viewerRef.current = (window as unknown as Record<string, { pannellum: PannellumViewer }>).pannellum.viewer('panorama-360', {
             type: 'equirectangular',
             panorama: active360.photo360,
             autoLoad: true,

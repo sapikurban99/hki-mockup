@@ -29,7 +29,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js" async></script>
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

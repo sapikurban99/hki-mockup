@@ -11,9 +11,7 @@ interface Props {
 }
 
 const ConstructionPanel: React.FC<Props> = ({ segments, stats, totalLength, onSelect }) => {
-  const percentSelesai = totalLength > 0 ? ((128 / totalLength) * 100).toFixed(1) : 0; // Hardcoded length selesai for now as it's not in API explicitly, but can be derived. Let's use 128 as a placeholder or we can calculate from Selesai Beroperasi. Wait, the stats object didn't export Selesai Beroperasi total length. Let's just use the stats.totalPanjang for ongoing.
-  // Actually, let's use the provided totalLength which is the sum of all segments.
-  const percentOnGoing = totalLength > 0 ? ((stats.totalPanjang / totalLength) * 100).toFixed(1) : 0;
+const percentOnGoing = totalLength > 0 ? ((stats.totalPanjang / totalLength) * 100).toFixed(1) : 0;
 
   return (
     <>
