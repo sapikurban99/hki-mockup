@@ -244,8 +244,8 @@ useEffect(() => {
   useEffect(() => {
     if (active360?.photo360) {
       const timer = setTimeout(() => {
-    if ((window as unknown as Record<string, { pannellum: PannellumViewer }>).pannellum) {
-      viewerRef.current = (window as unknown as Record<string, { pannellum: PannellumViewer }>).pannellum.viewer('panorama-360', {
+    if ((window as any).pannellum) {
+      viewerRef.current = (window as any).pannellum.viewer('panorama-360', {
             type: 'equirectangular',
             panorama: active360.photo360,
             autoLoad: true,
